@@ -8,14 +8,14 @@ export default function HowItWorksPage() {
   return (
     <MarketingPageLayout>
       <section className="marketing-section px-4 pb-16 pt-18 sm:px-6 lg:px-8">
-        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.9fr_1.1fr]">
+        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.9fr_1.1fr]">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.16em] text-primary">How It Works</p>
-            <h1 className="mt-4 text-5xl font-black tracking-tight text-foreground sm:text-6xl">
+            <h1 className="mt-4 text-4xl font-black tracking-tight text-foreground sm:text-5xl lg:text-6xl">
               A campaign process that stays visible from brief to reporting.
             </h1>
           </div>
-          <div className="marketing-panel p-7">
+          <div className="marketing-panel p-6 sm:p-7">
             <p className="text-base leading-relaxed text-slate-600">
               Klusters is structured to make creator work easier to coordinate and easier to explain. The workflow reduces handoff confusion while keeping the public-facing experience sharp.
             </p>
@@ -24,7 +24,7 @@ export default function HowItWorksPage() {
       </section>
 
       <section className="marketing-section px-4 py-6 sm:px-6 lg:px-8">
-        <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-3">
+        <div className="mx-auto grid max-w-7xl gap-6 md:grid-cols-2 lg:grid-cols-3">
           {processSteps.map((step, index) => (
             <article key={step.title} className="marketing-panel-soft p-7">
               <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-bg-soft text-primary">

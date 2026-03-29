@@ -251,7 +251,7 @@ export default function HomePage() {
         <WaveDivider />
       </section>
 
-      <section className="marketing-section bg-[#f8f1ff] px-4 pb-40 pt-24 sm:px-6 lg:px-8">
+      <section className="marketing-section bg-[#f8f1ff] px-4 pb-32 pt-20 sm:px-6 sm:pb-36 sm:pt-24 lg:px-8 lg:pb-40">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute left-[-4rem] top-10 h-64 w-64 rounded-full bg-primary/6 blur-3xl" />
           <div className="absolute right-[6%] top-24 h-72 w-72 rounded-full bg-primary/5 blur-3xl" />
@@ -336,7 +336,7 @@ export default function HomePage() {
             </Link>
           </div>
 
-          <div className="relative pl-6">
+          <div className="relative pl-5 sm:pl-6">
             <div className="absolute bottom-0 left-2.5 top-0 w-px bg-primary/12" />
             <div className="space-y-1" onMouseLeave={() => setActiveFeatureId(null)}>
               {homepageFeaturePreviews.map((feature) => {
@@ -349,7 +349,7 @@ export default function HomePage() {
                     onMouseEnter={() => setActiveFeatureId(feature.id)}
                   >
                     <span
-                      className={`absolute left-[-1.42rem] top-7 h-3 w-3 rounded-full border transition-all duration-300 ${
+                      className={`absolute left-[-1.2rem] top-7 h-3 w-3 rounded-full border transition-all duration-300 sm:left-[-1.42rem] ${
                         isExpanded ? 'border-primary bg-primary shadow-[0_0_0_6px_rgba(203,108,230,0.1)]' : 'border-primary/30 bg-white'
                       }`}
                     />
@@ -385,9 +385,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="relative overflow-hidden bg-[#f8f1ff] px-4 pb-36 pt-36 sm:px-6 lg:px-8">
+      <section className="relative overflow-hidden bg-[#f8f1ff] px-4 pb-28 pt-28 sm:px-6 sm:pb-32 sm:pt-32 lg:px-8 lg:pb-36 lg:pt-36">
         <div aria-hidden="true" className="absolute left-0 top-0 z-0 w-full overflow-hidden leading-none">
-          <svg viewBox="0 0 1440 120" className="h-[80px] w-full -scale-y-100 fill-[#f8f1ff]" preserveAspectRatio="none">
+          <svg viewBox="0 0 1440 120" className="h-[56px] w-full -scale-y-100 fill-[#f8f1ff] sm:h-[80px]" preserveAspectRatio="none">
             <path d="M0,32C120,75,240,107,360,106.7C480,107,600,75,720,58.7C840,43,960,43,1080,58.7C1200,75,1320,107,1440,101.3V120H0Z" />
           </svg>
         </div>
@@ -395,7 +395,7 @@ export default function HomePage() {
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-4xl">
               <p className="text-sm font-semibold uppercase tracking-[0.16em] text-primary">How It Works</p>
-              <h2 className="mt-4 text-4xl font-black tracking-tight text-foreground sm:text-5xl lg:text-[3rem] lg:whitespace-nowrap">
+              <h2 className="mt-4 text-4xl font-black tracking-tight text-foreground sm:text-5xl lg:text-[3rem]">
                 A clear process from brief to launch.
               </h2>
               <p className="mt-5 max-w-2xl text-lg leading-relaxed text-slate-600">
@@ -447,8 +447,8 @@ export default function HomePage() {
 
       <section className="px-4 pb-20 pt-6 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <div className="grid gap-0 md:grid-cols-[1.1fr_0.9fr]">
-            <div className="py-8 pr-0 md:pr-10">
+          <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-0">
+            <div className="py-8 pr-0 lg:pr-10">
               <p className="text-sm font-semibold uppercase tracking-[0.16em] text-primary">Contact Us</p>
               <h2 className="mt-4 text-3xl font-black tracking-tight text-foreground sm:text-4xl">
                 Start the conversation.
@@ -539,12 +539,12 @@ export default function HomePage() {
               </form>
             </div>
 
-            <div className="relative mt-8 flex items-stretch justify-end md:mt-0">
+            <div className="relative mt-8 flex items-stretch justify-end lg:mt-0">
               <div className="absolute right-0 top-8 h-[85%] w-8 rounded-l-lg bg-[#004aad]" />
 
-              <div className="relative z-10 flex w-full translate-x-0 flex-col justify-between rounded-l-3xl bg-white px-10 py-12 text-[#111111] shadow-xl md:w-[80%] md:translate-x-[-1.5rem] lg:w-[70%]">
-                <div className="absolute -top-3 left-10 h-6 w-6 rounded-sm bg-[#004aad]" />
-                <div className="absolute -bottom-3 right-10 h-6 w-6 rounded-sm bg-[#004aad]" />
+              <div className="relative z-10 flex w-full translate-x-0 flex-col justify-between rounded-l-3xl bg-white px-6 py-8 text-[#111111] shadow-xl sm:px-8 sm:py-10 lg:w-[70%] lg:translate-x-[-1.5rem] lg:px-10 lg:py-12">
+                <div className="absolute -top-3 left-6 h-6 w-6 rounded-sm bg-[#004aad] sm:left-8 lg:left-10" />
+                <div className="absolute -bottom-3 right-6 h-6 w-6 rounded-sm bg-[#004aad] sm:right-8 lg:right-10" />
 
                 <div>
                   <h3 className="mb-8 text-xl font-semibold text-[#111111]">Info</h3>

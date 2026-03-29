@@ -88,7 +88,7 @@ export default function AboutPage() {
 
       <section className="marketing-section bg-[#141218] px-4 py-20 text-white sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+          <div className="grid gap-12 xl:grid-cols-[0.95fr_1.05fr] xl:items-center">
             <div>
               <p className="text-sm font-semibold uppercase tracking-[0.16em] text-primary/90">Why teams use it</p>
               <h2 className="mt-4 max-w-lg text-4xl font-black tracking-tight text-white sm:text-5xl">
@@ -125,38 +125,38 @@ export default function AboutPage() {
               </div>
             </div>
 
-            <div className="relative mx-auto flex min-h-[24rem] w-full max-w-[30rem] items-center justify-center">
-              <div className="absolute inset-auto h-[19rem] w-[19rem] rounded-full border border-white/8 bg-white/[0.04]" />
-              <div className="absolute inset-auto h-[14rem] w-[14rem] rounded-full border border-white/10 bg-white/[0.06]" />
-              <div className="absolute inset-auto h-[12rem] w-[12rem] overflow-hidden rounded-full border-8 border-[#1f1d24] shadow-[0_18px_34px_rgba(0,0,0,0.24)]">
+            <div className="relative mx-auto mt-2 flex min-h-[20rem] w-full max-w-[22rem] items-center justify-center sm:min-h-[22rem] sm:max-w-[26rem] xl:mt-0 xl:min-h-[24rem] xl:max-w-[30rem]">
+              <div className="absolute inset-auto h-[15rem] w-[15rem] rounded-full border border-white/8 bg-white/[0.04] sm:h-[17rem] sm:w-[17rem] xl:h-[19rem] xl:w-[19rem]" />
+              <div className="absolute inset-auto h-[11rem] w-[11rem] rounded-full border border-white/10 bg-white/[0.06] sm:h-[13rem] sm:w-[13rem] xl:h-[14rem] xl:w-[14rem]" />
+              <div className="absolute inset-auto h-[9.25rem] w-[9.25rem] overflow-hidden rounded-full border-6 border-[#1f1d24] shadow-[0_18px_34px_rgba(0,0,0,0.24)] sm:h-[10.5rem] sm:w-[10.5rem] xl:h-[12rem] xl:w-[12rem] xl:border-8">
                 <img src="/person1.png" alt="Creator portrait" className="h-full w-full object-cover" />
               </div>
 
-              <div className="absolute right-12 top-16 flex h-16 w-16 items-center justify-center rounded-full bg-[linear-gradient(180deg,#cb6ce6_0%,#8d63ea_100%)] shadow-[0_18px_28px_rgba(203,108,230,0.24)]">
-                <Users className="h-6 w-6 text-white" />
+              <div className="absolute right-7 top-10 flex h-12 w-12 items-center justify-center rounded-full bg-[linear-gradient(180deg,#cb6ce6_0%,#8d63ea_100%)] shadow-[0_18px_28px_rgba(203,108,230,0.24)] sm:right-10 sm:top-12 sm:h-14 sm:w-14 xl:right-12 xl:top-16 xl:h-16 xl:w-16">
+                <Users className="h-4 w-4 text-white sm:h-5 sm:w-5 xl:h-6 xl:w-6" />
               </div>
 
-              <div className="absolute left-16 top-6 h-16 w-16">
+              <div className="absolute left-8 top-4 h-12 w-12 sm:left-12 sm:top-5 sm:h-14 sm:w-14 xl:left-16 xl:top-6 xl:h-16 xl:w-16">
                 <div className="glass-float-a h-full w-full overflow-hidden rounded-full border-4 border-[#141218] shadow-[0_12px_22px_rgba(0,0,0,0.2)]">
                   <img src="/person2.png" alt="Team member portrait" className="h-full w-full object-cover" />
                 </div>
               </div>
-              <div className="absolute left-6 top-1/2 h-9 w-9 -translate-y-1/2">
+              <div className="absolute left-1 top-1/2 h-7 w-7 -translate-y-1/2 sm:left-3 sm:h-8 sm:w-8 xl:left-6 xl:h-9 xl:w-9">
                 <div className="glass-float-b h-full w-full overflow-hidden rounded-full border-2 border-[#141218] shadow-[0_10px_18px_rgba(0,0,0,0.2)]">
                   <img src="/person3.png" alt="Team member portrait" className="h-full w-full object-cover" />
                 </div>
               </div>
-              <div className="absolute bottom-12 left-14 h-20 w-20">
+              <div className="absolute bottom-8 left-6 h-14 w-14 sm:bottom-10 sm:left-10 sm:h-16 sm:w-16 xl:bottom-12 xl:left-14 xl:h-20 xl:w-20">
                 <div className="glass-float-c h-full w-full overflow-hidden rounded-full border-4 border-[#141218] shadow-[0_12px_22px_rgba(0,0,0,0.2)]">
                   <img src="/person4.png" alt="Team member portrait" className="h-full w-full object-cover" />
                 </div>
               </div>
-              <div className="absolute bottom-4 left-1/2 h-12 w-12 -translate-x-1/2">
+              <div className="absolute bottom-1 left-1/2 h-9 w-9 -translate-x-1/2 sm:bottom-2 sm:h-10 sm:w-10 xl:bottom-4 xl:h-12 xl:w-12">
                 <div className="glass-float-a h-full w-full overflow-hidden rounded-full border-2 border-[#141218] shadow-[0_10px_18px_rgba(0,0,0,0.2)]">
                   <img src="/person5.png" alt="Team member portrait" className="h-full w-full object-cover" />
                 </div>
               </div>
-              <div className="absolute bottom-12 right-10 h-20 w-20">
+              <div className="absolute bottom-8 right-4 h-14 w-14 sm:bottom-10 sm:right-6 sm:h-16 sm:w-16 xl:bottom-12 xl:right-10 xl:h-20 xl:w-20">
                 <div className="glass-float-b h-full w-full overflow-hidden rounded-full border-4 border-[#141218] shadow-[0_12px_22px_rgba(0,0,0,0.2)]">
                   <img src="/person6.png" alt="Team member portrait" className="h-full w-full object-cover" />
                 </div>

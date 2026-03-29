@@ -76,8 +76,8 @@ export default function ContactPage() {
     <MarketingPageLayout>
       <section className="px-4 py-14 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <div className="grid gap-0 md:grid-cols-[1.08fr_0.92fr]">
-            <div className="py-10 pr-0 md:pr-10">
+          <div className="grid gap-10 lg:grid-cols-[1.08fr_0.92fr] lg:gap-0">
+            <div className="py-10 pr-0 lg:pr-10">
               <p className="text-sm font-semibold uppercase tracking-[0.16em] text-primary">Contact</p>
               <h1 className="mt-4 text-4xl font-black tracking-tight text-foreground sm:text-5xl">
                 Start the conversation.
@@ -165,12 +165,12 @@ export default function ContactPage() {
               </form>
             </div>
 
-            <div className="relative mt-10 flex items-stretch justify-end md:mt-0">
+            <div className="relative mt-10 flex items-stretch justify-end lg:mt-0">
               <div className="absolute right-0 top-8 h-[85%] w-8 rounded-l-lg bg-primary" />
 
-              <div className="relative z-10 flex w-full translate-x-0 flex-col justify-between rounded-l-[2rem] bg-[#003A8C] px-10 py-12 text-white shadow-xl md:w-[80%] md:translate-x-[-1.5rem] lg:w-[72%]">
-                <div className="absolute -top-3 left-10 h-6 w-6 rounded-sm bg-primary" />
-                <div className="absolute -bottom-3 right-10 h-6 w-6 rounded-sm bg-primary" />
+              <div className="relative z-10 flex w-full translate-x-0 flex-col justify-between rounded-l-[2rem] bg-[#003A8C] px-6 py-8 text-white shadow-xl sm:px-8 sm:py-10 lg:w-[72%] lg:translate-x-[-1.5rem] lg:px-10 lg:py-12">
+                <div className="absolute -top-3 left-6 h-6 w-6 rounded-sm bg-primary sm:left-8 lg:left-10" />
+                <div className="absolute -bottom-3 right-6 h-6 w-6 rounded-sm bg-primary sm:right-8 lg:right-10" />
 
                 <div>
                   <h2 className="text-xl font-semibold">Info</h2>

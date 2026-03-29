@@ -42,7 +42,7 @@ const featureDifferentiators = [
 export default function FeaturesPage() {
   return (
     <MarketingPageLayout>
-      <section className="marketing-section px-4 py-16 sm:px-6 lg:px-8">
+      <section className="marketing-section px-4 py-14 sm:px-6 sm:py-16 lg:px-8">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -left-24 top-0 h-[34rem] w-[34rem] rounded-full border border-primary/10" />
           <div className="absolute -left-16 top-8 h-[30rem] w-[30rem] rounded-full border border-primary/8" />
@@ -50,12 +50,12 @@ export default function FeaturesPage() {
         </div>
 
         <div className="relative mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.72fr_1.28fr] lg:items-center">
-          <div className="relative flex min-h-[24rem] items-center justify-center lg:justify-start">
+          <div className="relative flex min-h-[12rem] items-center justify-center sm:min-h-[16rem] lg:min-h-[24rem] lg:justify-start">
             <div className="flex items-center gap-4 sm:gap-6">
-              <span className="text-[8rem] font-black leading-none tracking-[-0.08em] text-primary sm:text-[10rem] lg:text-[12rem]">
+              <span className="text-[5.5rem] font-black leading-none tracking-[-0.08em] text-primary sm:text-[8rem] lg:text-[12rem]">
                 4
               </span>
-              <span className="text-4xl font-black uppercase tracking-[-0.06em] text-foreground [writing-mode:vertical-rl] [text-orientation:mixed] sm:text-5xl lg:text-6xl">
+              <span className="text-3xl font-black uppercase tracking-[-0.06em] text-foreground [writing-mode:vertical-rl] [text-orientation:mixed] sm:text-4xl lg:text-6xl">
                 Features
               </span>
             </div>
@@ -70,12 +70,12 @@ export default function FeaturesPage() {
                 <div
                   className="pointer-events-none absolute -right-5 top-1/2 h-14 w-14 -translate-y-1/2 rotate-12 rounded-2xl bg-[linear-gradient(180deg,#8fc5ff_0%,#004aad_100%)] opacity-0 shadow-[0_18px_28px_rgba(0,74,173,0.18)] transition-all duration-300 group-hover:opacity-100"
                 />
-                <div className="grid gap-4 sm:grid-cols-[5.5rem_1fr] sm:items-start">
+                <div className="grid gap-4 sm:grid-cols-[4.5rem_1fr] sm:items-start md:grid-cols-[5.5rem_1fr]">
                   <div className="flex h-14 w-14 items-center justify-center rounded-full border border-primary/10 bg-white/80 text-lg font-semibold text-slate-500 shadow-[inset_0_0_0_1px_rgba(203,108,230,0.04)]">
                     0{index + 1}
                   </div>
                   <div className="max-w-xl pt-1">
-                    <h1 className="text-2xl font-black tracking-tight text-foreground sm:text-[2rem]">
+                    <h1 className="text-xl font-black tracking-tight text-foreground sm:text-[1.7rem] lg:text-[2rem]">
                       {item.title}
                     </h1>
                     <p className="mt-3 text-base leading-relaxed text-slate-600 sm:text-lg">
@@ -101,7 +101,7 @@ export default function FeaturesPage() {
             </p>
           </div>
 
-          <div className="mt-12 grid gap-8 lg:grid-cols-3 lg:gap-10">
+          <div className="mt-12 grid gap-8 md:grid-cols-3 md:gap-6 lg:gap-10">
             {featureConnectionSteps.map((step, index) => (
               <article key={step.title} className="border-t border-white/12 pt-5">
                 <p className="text-sm font-semibold tracking-[0.18em] text-primary/90">0{index + 1}</p>
@@ -125,7 +125,7 @@ export default function FeaturesPage() {
             </p>
           </div>
 
-          <div className="mt-12 grid gap-8 lg:grid-cols-3 lg:gap-10">
+          <div className="mt-12 grid gap-8 md:grid-cols-3 md:gap-6 lg:gap-10">
             {featureDifferentiators.map((item, index) => (
               <article
                 key={item.title}

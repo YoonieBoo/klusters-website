@@ -12,11 +12,11 @@ export function Footer({ embedded = false, className = '' }) {
       <div className={`relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 ${embedded ? 'py-10 sm:py-12' : 'py-20'}`}>
         <div className="grid gap-10 md:grid-cols-4">
           <div className="md:col-span-2">
-            <Link href="/" className="flex items-center -ml-12">
+            <Link href="/" className="flex items-center -ml-2 sm:-ml-6">
               <img
                 src="/logo4-removebg.png"
                 alt="Klusters"
-                className="h-13 w-auto object-contain"
+                className="h-9 w-auto object-contain sm:h-10"
               />
             </Link>
             <p className="mt-4 max-w-md text-sm text-[#111111]/80">
