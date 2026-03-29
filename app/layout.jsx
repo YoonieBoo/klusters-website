@@ -6,6 +6,11 @@ export const metadata = {
   title: 'Klusters - Creator Profiles & Showcase',
   description: 'Discover talented creators, showcase your work, and connect with like-minded professionals on Klusters.',
   generator: 'v0.app',
+  icons: {
+    icon: '/logo pic 2.png',
+    shortcut: '/logo pic 2.png',
+    apple: '/logo pic 2.png',
+  },
 }
 
 export default function RootLayout({ children }) {

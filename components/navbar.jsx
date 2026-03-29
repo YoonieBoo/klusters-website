@@ -41,10 +41,10 @@ export function Navbar() {
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="-ml-6 flex items-center gap-2">
           <img
-  src="/logo4-removebg.png"
-  alt="Klusters"
-  className="h-14 w-auto object-contain"
-/>
+            src="/logo4-removebg.png"
+            alt="Klusters"
+            className="h-14 w-auto scale-125 object-contain"
+          />
         </Link>
 
         <div className="hidden items-center gap-1 md:flex">
