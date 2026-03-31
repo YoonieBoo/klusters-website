@@ -19,7 +19,7 @@ export function Footer({ embedded = false, className = '' }) {
                 className="h-9 w-auto object-contain sm:h-10"
               />
             </Link>
-            <p className="mt-4 max-w-md text-sm text-[#111111]/80">
+            <p className="mt-4 max-w-md text-base leading-relaxed text-[#111111]/80">
               Public-facing creator marketing for teams that want strategy, production, and performance insight without a gated product flow.
             </p>
             <div className="mt-6 flex items-center gap-3">
@@ -40,7 +40,7 @@ export function Footer({ embedded = false, className = '' }) {
             <ul className="mt-4 space-y-3">
               {siteNavItems.slice(1, 4).map((item) => (
                 <li key={item.href}>
-                  <Link href={item.href} className="text-sm text-[#111111]/70 transition hover:text-[#111111]">
+                  <Link href={item.href} className="text-base text-[#111111]/70 transition hover:text-[#111111]">
                     {item.label}
                   </Link>
                 </li>
@@ -52,12 +52,12 @@ export function Footer({ embedded = false, className = '' }) {
             <h3 className="text-sm font-semibold text-[#111111]">Contact</h3>
             <ul className="mt-4 space-y-3">
               <li>
-                <Link href="/contact" className="text-sm text-[#111111]/70 transition hover:text-[#111111]">
+                <Link href="/contact" className="text-base text-[#111111]/70 transition hover:text-[#111111]">
                   Contact Us
                 </Link>
               </li>
               <li>
-                <Link href="/features" className="text-sm text-[#111111]/70 transition hover:text-[#111111]">
+                <Link href="/features" className="text-base text-[#111111]/70 transition hover:text-[#111111]">
                   View Features
                 </Link>
               </li>
@@ -66,7 +66,7 @@ export function Footer({ embedded = false, className = '' }) {
         </div>
 
         <div className="mt-12 border-t border-primary/10 pt-8">
-          <p className="text-center text-sm text-[#111111]/60">{new Date().getFullYear()} Klusters. All rights reserved.</p>
+          <p className="text-center text-base text-[#111111]/60">{new Date().getFullYear()} Klusters. All rights reserved.</p>
         </div>
       </div>
     </footer>

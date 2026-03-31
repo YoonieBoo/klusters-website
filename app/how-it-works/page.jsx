@@ -16,7 +16,7 @@ export default function HowItWorksPage() {
             </h1>
           </div>
           <div className="marketing-panel p-6 sm:p-7">
-            <p className="text-base leading-relaxed text-slate-600">
+            <p className="text-lg leading-relaxed text-slate-600">
               Klusters is structured to make creator work easier to coordinate and easier to explain. The workflow reduces handoff confusion while keeping the public-facing experience sharp.
             </p>
           </div>
@@ -32,7 +32,7 @@ export default function HowItWorksPage() {
               </div>
               <p className="mt-6 text-xs font-semibold uppercase tracking-[0.18em] text-brand-secondary">Step {index + 1}</p>
               <h2 className="mt-3 text-2xl font-black tracking-tight text-foreground">{step.title}</h2>
-              <p className="mt-3 text-sm leading-relaxed text-slate-600">{step.description}</p>
+              <p className="mt-3 text-base leading-relaxed text-slate-600">{step.description}</p>
             </article>
           ))}
         </div>
@@ -45,7 +45,7 @@ export default function HowItWorksPage() {
               <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-primary/10 text-primary">
                 <ShieldCheck className="h-5 w-5" />
               </div>
-              <p className="text-base leading-relaxed text-slate-600">{benefit}</p>
+              <p className="text-lg leading-relaxed text-slate-600">{benefit}</p>
             </article>
           ))}
         </div>

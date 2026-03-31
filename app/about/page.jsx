@@ -65,7 +65,7 @@ export default function AboutPage() {
             <h2 className="mt-4 text-4xl font-black tracking-tight text-foreground sm:text-5xl">
               A clearer way to follow what the product is for
             </h2>
-            <p className="mt-4 text-base leading-relaxed text-slate-600">
+            <p className="mt-4 text-lg leading-relaxed text-slate-600">
               The platform is designed to be easy to scan, so clients and teams can quickly understand what Klusters does and how it supports campaign work.
             </p>
           </div>
@@ -78,7 +78,7 @@ export default function AboutPage() {
                 </div>
                 <div>
                   <h3 className="text-xl font-black tracking-tight text-foreground">{item.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-slate-600">{item.description}</p>
+                  <p className="mt-2 text-base leading-relaxed text-slate-600">{item.description}</p>
                 </div>
               </article>
             ))}
@@ -94,7 +94,7 @@ export default function AboutPage() {
               <h2 className="mt-4 max-w-lg text-4xl font-black tracking-tight text-white sm:text-5xl">
                 Useful for both internal teams and client conversations
               </h2>
-              <p className="mt-4 max-w-lg text-base leading-relaxed text-white/72">
+              <p className="mt-4 max-w-lg text-lg leading-relaxed text-white/72">
                 Klusters keeps the platform presentable for clients while still giving teams enough structure to manage campaign work confidently.
               </p>
 
@@ -105,7 +105,7 @@ export default function AboutPage() {
                     className="group rounded-[1.5rem] border border-white/6 bg-white/5 p-5 text-white transition-colors duration-300 hover:border-primary/40 hover:bg-[linear-gradient(180deg,#cb6ce6_0%,#8d63ea_100%)]"
                   >
                     <h3 className="text-xl font-semibold tracking-tight sm:text-[1.4rem]">{item.title}</h3>
-                    <p className="mt-3 text-sm leading-relaxed text-white/72 transition-colors duration-300 group-hover:text-white/86">
+                    <p className="mt-3 text-base leading-relaxed text-white/72 transition-colors duration-300 group-hover:text-white/86">
                       {item.description}
                     </p>
                   </article>
@@ -117,7 +117,7 @@ export default function AboutPage() {
                     className="group rounded-[1.5rem] border border-white/6 bg-white/5 p-5 transition-colors duration-300 hover:border-primary/40 hover:bg-[linear-gradient(180deg,#cb6ce6_0%,#8d63ea_100%)]"
                   >
                     <h3 className="text-xl font-semibold tracking-tight text-white sm:text-[1.4rem]">{item.title}</h3>
-                    <p className="mt-3 max-w-xl text-sm leading-relaxed text-white/72 transition-colors duration-300 group-hover:text-white/86">
+                    <p className="mt-3 max-w-xl text-base leading-relaxed text-white/72 transition-colors duration-300 group-hover:text-white/86">
                       {item.description}
                     </p>
                   </article>

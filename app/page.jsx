@@ -224,7 +224,7 @@ export default function HomePage() {
                       </div>
                       <p className="text-base font-semibold">{item.title}</p>
                     </div>
-                    <p className="mt-3 text-[15px] leading-relaxed text-slate-500 sm:text-base">
+                    <p className="mt-3 text-base leading-relaxed text-slate-500 sm:text-lg">
                       {item.description}
                     </p>
                   </div>
@@ -262,7 +262,7 @@ export default function HomePage() {
             <h2 className="mt-4 text-4xl font-black tracking-tight text-foreground sm:text-5xl">
               Built to make creator marketing easier to understand
             </h2>
-            <p className="mt-4 max-w-2xl text-base leading-relaxed text-slate-600">
+            <p className="mt-4 max-w-2xl text-lg leading-relaxed text-slate-600">
               Klusters is a platform that helps brands discover creators, plan campaigns, and present their work in a more structured and transparent way.
             </p>
           </div>
@@ -271,7 +271,7 @@ export default function HomePage() {
       <article className="flex flex-col justify-center border border-primary/10 bg-white/60 p-5">
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary/80">01</p>
         <p className="mt-3 text-lg font-black tracking-tight text-foreground">{aboutKlustersVisuals[0].title}</p>
-        <p className="mt-2 max-w-[15rem] text-sm leading-relaxed text-slate-600">{aboutKlustersVisuals[0].description}</p>
+        <p className="mt-2 max-w-[15rem] text-base leading-relaxed text-slate-600">{aboutKlustersVisuals[0].description}</p>
       </article>
 
       <div className="relative overflow-hidden border border-primary/10 bg-white/40 aspect-[1.18/1] lg:aspect-auto">
@@ -285,7 +285,7 @@ export default function HomePage() {
       <article className="flex flex-col justify-center border border-primary/10 bg-white/60 p-5">
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary/80">02</p>
         <p className="mt-3 text-lg font-black tracking-tight text-foreground">{aboutKlustersVisuals[1].title}</p>
-        <p className="mt-2 max-w-[15rem] text-sm leading-relaxed text-slate-600">{aboutKlustersVisuals[1].description}</p>
+        <p className="mt-2 max-w-[15rem] text-base leading-relaxed text-slate-600">{aboutKlustersVisuals[1].description}</p>
       </article>
 
       <div className="relative overflow-hidden border border-primary/10 bg-white/40 aspect-[1.18/1] lg:aspect-auto">
@@ -299,7 +299,7 @@ export default function HomePage() {
       <article className="flex flex-col justify-center border border-primary/10 bg-white/60 p-5">
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary/80">03</p>
         <p className="mt-3 text-lg font-black tracking-tight text-foreground">{aboutKlustersVisuals[2].title}</p>
-        <p className="mt-2 max-w-[15rem] text-sm leading-relaxed text-slate-600">{aboutKlustersVisuals[2].description}</p>
+        <p className="mt-2 max-w-[15rem] text-base leading-relaxed text-slate-600">{aboutKlustersVisuals[2].description}</p>
       </article>
 
       <div className="relative overflow-hidden border border-primary/10 bg-white/40 aspect-[1.18/1] lg:aspect-auto">
@@ -325,7 +325,7 @@ export default function HomePage() {
             <h2 className="mt-4 text-4xl font-black tracking-tight text-foreground sm:text-5xl">
               Explore how Klusters works
             </h2>
-            <p className="mt-5 text-base leading-relaxed text-slate-600">
+            <p className="mt-5 text-lg leading-relaxed text-slate-600">
               A quick look at how creators, campaigns, and workflows are structured inside the platform.
             </p>
             <Link href="/features" className="mt-8 inline-flex">
@@ -363,7 +363,7 @@ export default function HomePage() {
                       <h3 className={`mt-2 text-xl font-black tracking-tight transition-colors duration-300 ${isExpanded ? 'text-primary' : 'text-foreground'}`}>
                         {feature.title}
                       </h3>
-                      <p className="mt-2 text-sm leading-relaxed text-slate-600">{feature.summary}</p>
+                      <p className="mt-2 text-base leading-relaxed text-slate-600">{feature.summary}</p>
                     </button>
 
                     <div
@@ -373,7 +373,7 @@ export default function HomePage() {
                     >
                       <div className="overflow-hidden">
                         <div className="max-w-2xl pr-4">
-                          <p className="text-sm leading-relaxed text-slate-600">{feature.detail}</p>
+                          <p className="text-base leading-relaxed text-slate-600">{feature.detail}</p>
                         </div>
                       </div>
                     </div>
@@ -398,7 +398,7 @@ export default function HomePage() {
               <h2 className="mt-4 text-4xl font-black tracking-tight text-foreground sm:text-5xl lg:text-[3rem]">
                 A clear process from brief to launch.
               </h2>
-              <p className="mt-5 max-w-2xl text-lg leading-relaxed text-slate-600">
+              <p className="mt-5 max-w-2xl text-xl leading-relaxed text-slate-600">
                 Klusters keeps the workflow simple and visible, so clients can understand the process quickly and see how strategy, creator matching, and delivery connect.
               </p>
             </div>
@@ -429,7 +429,7 @@ export default function HomePage() {
                         ? 'Match the right creators'
                         : 'Launch and track'}
                   </h3>
-                  <p className="mt-4 text-base leading-relaxed text-slate-600">
+                  <p className="mt-4 text-lg leading-relaxed text-slate-600">
                     {index === 0
                       ? 'Align on goals, audience, deliverables, and campaign priorities before outreach begins.'
                       : index === 1
@@ -453,10 +453,10 @@ export default function HomePage() {
               <h2 className="mt-4 text-3xl font-black tracking-tight text-foreground sm:text-4xl">
                 Start the conversation.
               </h2>
-              <p className="mt-4 max-w-md text-sm font-semibold text-slate-600 sm:text-base">
+              <p className="mt-4 max-w-md text-base font-semibold text-slate-600 sm:text-lg">
                 Feel free to reach out any time.
               </p>
-              <p className="mt-4 max-w-lg text-sm leading-relaxed text-slate-600 sm:text-base">
+              <p className="mt-4 max-w-lg text-base leading-relaxed text-slate-600 sm:text-lg">
                 Whether you want a platform walkthrough, pricing details, or support for an upcoming campaign, we will get back to you as soon as we can.
               </p>
 

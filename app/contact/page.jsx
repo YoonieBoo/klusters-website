@@ -82,10 +82,10 @@ export default function ContactPage() {
               <h1 className="mt-4 text-4xl font-black tracking-tight text-foreground sm:text-5xl">
                 Start the conversation.
               </h1>
-              <p className="mt-5 max-w-md text-base font-semibold text-slate-600">
+              <p className="mt-5 max-w-md text-lg font-semibold text-slate-600">
                 Reach out any time.
               </p>
-              <p className="mt-4 max-w-xl text-base leading-relaxed text-slate-600">
+              <p className="mt-4 max-w-xl text-lg leading-relaxed text-slate-600">
                 Whether you want a platform walkthrough, campaign planning support, or pricing information, send a note and we will follow up with the right next step.
               </p>
 

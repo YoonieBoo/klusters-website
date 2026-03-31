@@ -78,7 +78,7 @@ export default function FeaturesPage() {
                     <h1 className="text-xl font-black tracking-tight text-foreground sm:text-[1.7rem] lg:text-[2rem]">
                       {item.title}
                     </h1>
-                    <p className="mt-3 text-base leading-relaxed text-slate-600 sm:text-lg">
+                    <p className="mt-3 text-lg leading-relaxed text-slate-600 sm:text-xl">
                       {item.description}
                     </p>
                   </div>
@@ -96,7 +96,7 @@ export default function FeaturesPage() {
             <h2 className="mt-4 text-4xl font-black tracking-tight text-white sm:text-5xl">
               A simple path from planning to launch.
             </h2>
-            <p className="mt-4 text-base leading-relaxed text-white/72">
+            <p className="mt-4 text-lg leading-relaxed text-white/72">
               Klusters connects the main parts of the workflow so teams can move from decision-making to delivery without losing context.
             </p>
           </div>
@@ -106,7 +106,7 @@ export default function FeaturesPage() {
               <article key={step.title} className="border-t border-white/12 pt-5">
                 <p className="text-sm font-semibold tracking-[0.18em] text-primary/90">0{index + 1}</p>
                 <h3 className="mt-4 text-2xl font-black tracking-tight text-white">{step.title}</h3>
-                <p className="mt-3 max-w-sm text-sm leading-relaxed text-white/68">{step.description}</p>
+                <p className="mt-3 max-w-sm text-base leading-relaxed text-white/68">{step.description}</p>
               </article>
             ))}
           </div>
@@ -120,7 +120,7 @@ export default function FeaturesPage() {
             <h2 className="mt-4 text-4xl font-black tracking-tight text-foreground sm:text-5xl">
               Most creator tools are hard to explain. Klusters isn’t.
             </h2>
-            <p className="mt-4 text-base leading-relaxed text-slate-600">
+            <p className="mt-4 text-lg leading-relaxed text-slate-600">
               The platform focuses on clear structure, presentable creator information, and a workflow clients can understand quickly.
             </p>
           </div>
@@ -132,7 +132,7 @@ export default function FeaturesPage() {
                 className={`${index !== 0 ? 'lg:border-l lg:border-primary/12 lg:pl-8' : ''} border-t border-primary/12 pt-5 lg:border-t-0 lg:pt-0`}
               >
                 <h3 className="text-2xl font-black tracking-tight text-foreground">{item.title}</h3>
-                <p className="mt-3 max-w-sm text-sm leading-relaxed text-slate-600">{item.description}</p>
+                <p className="mt-3 max-w-sm text-base leading-relaxed text-slate-600">{item.description}</p>
               </article>
             ))}
           </div>
@@ -144,7 +144,7 @@ export default function FeaturesPage() {
           <div className="max-w-2xl">
             <p className="text-sm font-semibold uppercase tracking-[0.16em] text-primary">Next Step</p>
             <h2 className="mt-3 text-3xl font-black tracking-tight text-foreground">See the platform in context.</h2>
-            <p className="mt-3 text-slate-600">
+            <p className="mt-3 text-lg leading-relaxed text-slate-600">
               Explore the About page for a clearer overview, or start a conversation about how these features could support your campaigns.
             </p>
           </div>
