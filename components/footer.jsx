@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { Instagram, Linkedin, Twitter } from 'lucide-react'
 import { siteNavItems } from '@/lib/marketing-content'
+import { Button } from '@/components/ui/button'
 
 export function Footer({ embedded = false, className = '' }) {
   const wrapperClassName = embedded
@@ -22,6 +23,11 @@ export function Footer({ embedded = false, className = '' }) {
             <p className="mt-4 max-w-md text-base leading-relaxed text-[#111111]/80">
               Public-facing creator marketing for teams that want strategy, production, and performance insight without a gated product flow.
             </p>
+            <div className="mt-6">
+              <Link href="/signup">
+                <Button size="lg">Sign Up</Button>
+              </Link>
+            </div>
             <div className="mt-6 flex items-center gap-3">
               <Link href="#" aria-label="Instagram" className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-primary/10 bg-white/70 text-[#111111]/72 transition hover:border-primary hover:bg-white hover:text-[#111111]">
                 <Instagram className="h-4 w-4" />
