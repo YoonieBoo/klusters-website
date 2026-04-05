@@ -394,18 +394,18 @@ export default function HomePage() {
         <div className="relative z-10 mx-auto max-w-7xl">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-4xl">
-              <p className="text-sm font-semibold uppercase tracking-[0.16em] text-primary">How It Works</p>
+              <p className="text-sm font-semibold uppercase tracking-[0.16em] text-primary">What You Get</p>
               <h2 className="mt-4 text-4xl font-black tracking-tight text-foreground sm:text-5xl lg:text-[3rem]">
-                A clear process from brief to launch.
+                Outcomes that make creator campaigns easier to trust.
               </h2>
               <p className="mt-5 max-w-2xl text-xl leading-relaxed text-slate-600">
-                Klusters keeps the workflow simple and visible, so clients can understand the process quickly and see how strategy, creator matching, and delivery connect.
+                The value here is stronger creator fit, more usable content, and clearer visibility across the campaign.
               </p>
             </div>
 
             <Link href="/how-it-works" className="inline-flex shrink-0 lg:self-end">
               <Button variant="secondary">
-                See the full process
+                Learn More
                 <ArrowRight className="h-4 w-4" />
               </Button>
             </Link>
@@ -424,17 +424,17 @@ export default function HomePage() {
                 <div className="mt-6 max-w-sm">
                   <h3 className="text-2xl font-black tracking-tight text-foreground">
                     {index === 0
-                      ? 'Define the brief'
+                      ? 'Right creators, not random reach'
                       : index === 1
-                        ? 'Match the right creators'
-                        : 'Launch and track'}
+                        ? 'Content you can actually use'
+                        : 'Clear results, not guesswork'}
                   </h3>
                   <p className="mt-4 text-lg leading-relaxed text-slate-600">
                     {index === 0
-                      ? 'Align on goals, audience, deliverables, and campaign priorities before outreach begins.'
+                      ? 'We match creators based on content fit, audience relevance, and brand alignment — not just follower count.'
                       : index === 1
-                        ? 'Shortlist suitable creators based on fit, content style, and campaign needs.'
-                        : 'Coordinate execution, approvals, and reporting in one clear workflow.'}
+                        ? 'Every piece is reviewed, structured, and aligned with your campaign goals — not one-off posts.'
+                        : 'Track performance, approvals, and outcomes in one place — with full visibility from start to finish.'}
                   </p>
                 </div>
               </article>
