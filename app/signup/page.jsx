@@ -9,8 +9,9 @@ import { Textarea } from '@/components/ui/textarea'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 
 const creatorQuestions = [
-  { name: 'school', label: 'School or program', placeholder: 'Bangkok University' },
+  { name: 'school', label: 'Faculty or major', placeholder: 'Communication Arts, Marketing, Computer Science' },
   { name: 'focusArea', label: 'Primary creative focus', placeholder: 'UGC, design, short-form video, copywriting' },
+  { name: 'followers', label: 'How many followers do you have?', placeholder: '2,500' },
   { name: 'hoursPerWeek', label: 'Hours available each week', placeholder: '10-15 hours' },
   { name: 'portfolio', label: 'Portfolio or socials', placeholder: 'Instagram, TikTok, Behance, website' },
   { name: 'interests', label: 'What do you want to contribute?', placeholder: 'Campaign production, editing, research, community growth' },
@@ -46,6 +47,7 @@ const initialFields = {
   location: '',
   school: '',
   focusArea: '',
+  followers: '',
   hoursPerWeek: '',
   portfolio: '',
   interests: '',
