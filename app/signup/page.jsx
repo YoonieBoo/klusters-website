@@ -275,7 +275,7 @@ export default function SignupPage() {
                 type="single"
                 value={signupType}
                 onValueChange={handleTypeChange}
-                className="mt-3 grid w-full grid-cols-1 overflow-hidden rounded-xl border border-primary/12 bg-[#f8f1ff] p-1 sm:grid-cols-2"
+                className="mt-3 grid w-full grid-cols-2 overflow-hidden rounded-xl border border-primary/12 bg-[#f8f1ff] p-1"
               >
                 <ToggleGroupItem value="student-creator" className="rounded-lg px-3 py-2 text-center text-sm whitespace-normal data-[state=on]:bg-primary data-[state=on]:text-white">
                   Student Creator
