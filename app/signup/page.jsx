@@ -28,7 +28,7 @@ const creatorQuestions = [
     options: ['Beginner (just starting)', 'Intermediate (posting sometimes)', 'Active creator (consistent)'],
   },
   { name: 'hoursPerWeek', label: 'Hours available each week', placeholder: '10-15 hours' },
-  { name: 'portfolio', label: 'Portfolio / Content Links', placeholder: 'Instagram, TikTok, Behance, website' },
+  { name: 'portfolio', label: 'Portfolio / Content Links', placeholder: 'Instagram, TikTok, Behance, website', optional: true },
   { name: 'interests', label: 'What do you want to contribute?', placeholder: 'Campaign production, editing, research, community growth' },
 ]
 
