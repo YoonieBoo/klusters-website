@@ -7,7 +7,7 @@ export default function BrandDashboardPage() {
       title="Brand planning now starts with a public conversation."
       description="There is no private brand dashboard here anymore. Review the offering and reach out for a tailored recommendation."
       primaryHref="/contact"
-      primaryLabel="Book a Demo"
+      primaryLabel="Contact Us"
       secondaryHref="/features"
       secondaryLabel="View Services"
     />

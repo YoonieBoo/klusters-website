@@ -9,7 +9,7 @@ export default function DashboardPage() {
       primaryHref="/features"
       primaryLabel="Explore Features"
       secondaryHref="/contact"
-      secondaryLabel="Book a Demo"
+      secondaryLabel="Contact Us"
     />
   )
 }

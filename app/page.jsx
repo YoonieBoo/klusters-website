@@ -233,14 +233,14 @@ export default function HomePage() {
 
               <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-center">
                 <Link href="/features">
-                  <Button size="lg" className="w-full sm:w-auto">
+                  <Button size="lg" className="w-full justify-center sm:w-52">
                     Explore Features
                     <ArrowRight className="h-4 w-4" />
                   </Button>
                 </Link>
-                <Link href="/contact">
-                  <Button size="lg" variant="secondary" className="w-full sm:w-auto">
-                    Book a Demo
+                <Link href="/signup">
+                  <Button size="lg" variant="secondary" className="w-full justify-center sm:w-52">
+                    Sign Up
                   </Button>
                 </Link>
               </div>

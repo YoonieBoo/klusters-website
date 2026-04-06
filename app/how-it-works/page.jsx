@@ -65,7 +65,7 @@ export default function HowItWorksPage() {
               </Button>
             </Link>
             <Link href="/contact">
-              <Button>Book a Demo</Button>
+              <Button>Contact Us</Button>
             </Link>
           </div>
         </div>

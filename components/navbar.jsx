@@ -60,11 +60,8 @@ export function Navbar() {
           ))}
 
           <div className="ml-3 flex items-center gap-3">
-            <Link href="/signup">
-              <Button variant="outline">Sign Up</Button>
-            </Link>
             <Link href="/contact">
-              <Button>Book a Demo</Button>
+              <Button>Contact Us</Button>
             </Link>
           </div>
         </div>
@@ -95,20 +92,11 @@ export function Navbar() {
             </div>
             <div className="mt-6 border-t border-white/10 pt-6">
               <Link
-                href="/signup"
-                className="inline-flex w-full items-center justify-center rounded-lg border border-white/20 bg-white px-4 py-2 text-sm font-semibold text-[#111111] transition hover:bg-white/90"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Sign Up
-              </Link>
-            </div>
-            <div className="mt-3">
-              <Link
                 href="/contact"
                 className="inline-flex w-full items-center justify-center rounded-lg border border-primary bg-primary px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#b95ed8]"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Book a Demo
+                Contact Us
               </Link>
             </div>
           </SheetContent>
