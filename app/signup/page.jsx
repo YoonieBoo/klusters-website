@@ -5,59 +5,100 @@ import { MarketingPageLayout } from '@/components/marketing-page-layout'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 
 const creatorQuestions = [
-  { name: 'school', label: 'Faculty or major', placeholder: 'Communication Arts, Marketing, Computer Science' },
+  { name: 'nickname', label: 'Nickname', placeholder: 'Ning' },
+  { name: 'school', label: 'University / Faculty / Program', placeholder: 'Bangkok University / Communication Arts / Digital Marketing' },
+  { name: 'year', label: 'Year', type: 'select', placeholder: 'Select year', options: ['1', '2', '3', '4'] },
+  { name: 'phoneNumber', label: 'Phone number', placeholder: '+66 8X-XXX-XXXX' },
+  { name: 'preferredContact', label: 'LINE ID / Preferred contact', placeholder: 'lineid123 or WhatsApp' },
+  { name: 'instagramHandle', label: 'Instagram handle', placeholder: '@yourhandle' },
+  { name: 'tiktokHandle', label: 'TikTok handle', placeholder: '@yourhandle' },
+  { name: 'otherPlatforms', label: 'Other platforms (optional)', placeholder: 'YouTube, Lemon8, X', optional: true },
   { name: 'focusArea', label: 'Primary creative focus', placeholder: 'UGC, design, short-form video, copywriting' },
   { name: 'followers', label: 'How many followers do you have?', placeholder: '2,500' },
+  {
+    name: 'experienceLevel',
+    label: 'Experience level',
+    type: 'select',
+    placeholder: 'Select experience level',
+    options: ['Beginner (just starting)', 'Intermediate (posting sometimes)', 'Active creator (consistent)'],
+  },
   { name: 'hoursPerWeek', label: 'Hours available each week', placeholder: '10-15 hours' },
-  { name: 'portfolio', label: 'Portfolio or socials', placeholder: 'Instagram, TikTok, Behance, website' },
+  { name: 'portfolio', label: 'Portfolio / Content Links', placeholder: 'Instagram, TikTok, Behance, website' },
   { name: 'interests', label: 'What do you want to contribute?', placeholder: 'Campaign production, editing, research, community growth' },
 ]
 
 const creatorContentTypes = [
   'Lifestyle',
   'Food',
+  'Beauty',
   'Fashion',
   'Campus life',
   'Educational',
+  'Other',
 ]
 
 const managerQuestions = [
-  { name: 'company', label: 'Company or team name', placeholder: 'Acme Marketing' },
-  { name: 'role', label: 'Your role', placeholder: 'Campaign Manager' },
-  { name: 'campaignType', label: 'Campaigns you manage', placeholder: 'UGC launches, creator partnerships, paid social' },
-  { name: 'hoursPerWeek', label: 'Hours you can dedicate each week', placeholder: '5-8 hours' },
-  { name: 'goals', label: 'What support do you need?', placeholder: 'Creator sourcing, campaign coordination, reporting' },
-  { name: 'organizationExperience', label: 'Describe any experience in organizing people, events, or projects', placeholder: 'Student clubs, campaign teams, productions, events, or client work' },
+  { name: 'managerProgram', label: 'Program', placeholder: 'Marketing, Business, Communication Arts' },
+  { name: 'managerYear', label: 'Year', type: 'select', placeholder: 'Select year', options: ['1', '2', '3', '4'] },
+  { name: 'managerPhone', label: 'Phone', placeholder: '+66 8X-XXX-XXXX' },
+  { name: 'managerLineId', label: 'LINE ID', placeholder: 'lineid123' },
+  {
+    name: 'managedBefore',
+    label: 'Have you managed a team/project before?',
+    type: 'select',
+    placeholder: 'Select an option',
+    options: ['Yes', 'No'],
+  },
+  {
+    name: 'organizationExperience',
+    label: 'Describe any experience managing people, events, or projects',
+    placeholder: 'Student clubs, campaign teams, productions, events, or client work',
+    type: 'textarea',
+  },
 ]
 
+const managerTools = ['Google Sheets', 'Notion', 'Excel', 'Other']
 const managerResponsibilities = [
-  'Track creator progress weekly',
+  'Track creator progress',
   'Follow up with team members',
-  'Report updates',
   'Ensure deadlines are met',
+  'Submit weekly reports',
 ]
 
 const initialFields = {
   name: '',
   email: '',
   location: '',
+  nickname: '',
   school: '',
+  year: '',
+  phoneNumber: '',
+  preferredContact: '',
+  instagramHandle: '',
+  tiktokHandle: '',
+  otherPlatforms: '',
   focusArea: '',
   followers: '',
+  experienceLevel: '',
   hoursPerWeek: '',
   portfolio: '',
   interests: '',
   creatorContentTypes: [],
-  company: '',
-  role: '',
-  campaignType: '',
-  goals: '',
+  creatorContentTypeOther: '',
+  managerProgram: '',
+  managerYear: '',
+  managerPhone: '',
+  managerLineId: '',
+  managedBefore: '',
   organizationExperience: '',
   managerResponsibilities: [],
+  managerTools: [],
+  managerToolOther: '',
   notes: '',
 }
 
@@ -77,10 +118,25 @@ export default function SignupPage() {
     setForm((prev) => ({ ...prev, [key]: event.target.value }))
   }
 
+  const setFieldValue = (key, value) => {
+    setStatus({ type: '', message: '' })
+    setForm((prev) => ({ ...prev, [key]: value }))
+  }
+
   const handleTypeChange = (value) => {
     if (!value) return
     setStatus({ type: '', message: '' })
     setSignupType(value)
+  }
+
+  const toggleManagerTool = (tool, checked) => {
+    setStatus({ type: '', message: '' })
+    setForm((prev) => ({
+      ...prev,
+      managerTools: checked
+        ? [...prev.managerTools, tool]
+        : prev.managerTools.filter((item) => item !== tool),
+    }))
   }
 
   const toggleResponsibility = (responsibility, checked) => {
@@ -117,7 +173,7 @@ export default function SignupPage() {
       return
     }
 
-    const missingQuestion = questions.find(({ name }) => !form[name].trim())
+    const missingQuestion = questions.find(({ name, optional }) => !optional && !form[name].trim())
     if (missingQuestion) {
       setStatus({ type: 'error', message: `Please answer: ${missingQuestion.label}.` })
       return
@@ -125,6 +181,24 @@ export default function SignupPage() {
 
     if (signupType === 'student-creator' && form.creatorContentTypes.length === 0) {
       setStatus({ type: 'error', message: 'Please select at least one content type.' })
+      return
+    }
+
+    if (
+      signupType === 'student-creator' &&
+      form.creatorContentTypes.includes('Other') &&
+      !form.creatorContentTypeOther.trim()
+    ) {
+      setStatus({ type: 'error', message: 'Please specify your other content category.' })
+      return
+    }
+
+    if (
+      signupType === 'campaign-manager' &&
+      form.managerTools.includes('Other') &&
+      !form.managerToolOther.trim()
+    ) {
+      setStatus({ type: 'error', message: 'Please specify your other tool.' })
       return
     }
 
@@ -230,24 +304,48 @@ export default function SignupPage() {
 
             <div className="grid gap-4 sm:grid-cols-2">
               {questions.map((question) => (
-                <div key={question.name} className={question.name === 'interests' || question.name === 'goals' || question.name === 'organizationExperience' ? 'sm:col-span-2' : ''}>
+                <div key={question.name} className={question.name === 'interests' || question.name === 'organizationExperience' ? 'sm:col-span-2' : ''}>
                   <label htmlFor={question.name} className="text-sm font-medium text-[#111111]">
                     {question.label}
                   </label>
-                  <Input
-                    id={question.name}
-                    value={form[question.name]}
-                    onChange={updateField(question.name)}
-                    placeholder={question.placeholder}
-                    className="mt-2 h-11 border-primary/12 bg-[#fcfbff]"
-                  />
+                  {question.type === 'select' ? (
+                    <Select value={form[question.name]} onValueChange={(value) => setFieldValue(question.name, value)}>
+                      <SelectTrigger id={question.name} className="mt-2 h-11 w-full border-primary/12 bg-[#fcfbff]">
+                        <SelectValue placeholder={question.placeholder} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {question.options.map((option) => (
+                          <SelectItem key={option} value={option}>
+                            {option}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  ) : question.type === 'textarea' ? (
+                    <Textarea
+                      id={question.name}
+                      value={form[question.name]}
+                      onChange={updateField(question.name)}
+                      placeholder={question.placeholder}
+                      className="mt-2 min-h-28 border-primary/12 bg-[#fcfbff]"
+                    />
+                  ) : (
+                    <Input
+                      id={question.name}
+                      type={question.name === 'phoneNumber' || question.name === 'managerPhone' ? 'tel' : 'text'}
+                      value={form[question.name]}
+                      onChange={updateField(question.name)}
+                      placeholder={question.placeholder}
+                      className="mt-2 h-11 border-primary/12 bg-[#fcfbff]"
+                    />
+                  )}
                 </div>
               ))}
             </div>
 
             {signupType === 'student-creator' ? (
               <div>
-                <p className="text-sm font-medium text-[#111111]">What type of content are you interested in creating?</p>
+                <p className="text-sm font-medium text-[#111111]">Content category</p>
                 <div className="mt-3 grid gap-3 rounded-2xl border border-primary/12 bg-[#fcfbff] p-4 sm:grid-cols-2">
                   {creatorContentTypes.map((contentType) => (
                     <label key={contentType} className="flex items-center gap-3 text-sm text-[#111111]">
@@ -259,6 +357,20 @@ export default function SignupPage() {
                     </label>
                   ))}
                 </div>
+                {form.creatorContentTypes.includes('Other') ? (
+                  <div className="mt-4">
+                    <label htmlFor="creatorContentTypeOther" className="text-sm font-medium text-[#111111]">
+                      Other content category
+                    </label>
+                    <Input
+                      id="creatorContentTypeOther"
+                      value={form.creatorContentTypeOther}
+                      onChange={updateField('creatorContentTypeOther')}
+                      placeholder="Music, gaming, tech, travel"
+                      className="mt-2 h-11 border-primary/12 bg-[#fcfbff]"
+                    />
+                  </div>
+                ) : null}
               </div>
             ) : null}
 
@@ -276,6 +388,37 @@ export default function SignupPage() {
                     </label>
                   ))}
                 </div>
+              </div>
+            ) : null}
+
+            {signupType === 'campaign-manager' ? (
+              <div>
+                <p className="text-sm font-medium text-[#111111]">What tools are you comfortable with? (optional)</p>
+                <div className="mt-3 grid gap-3 rounded-2xl border border-primary/12 bg-[#fcfbff] p-4">
+                  {managerTools.map((tool) => (
+                    <label key={tool} className="flex items-center gap-3 text-sm text-[#111111]">
+                      <Checkbox
+                        checked={form.managerTools.includes(tool)}
+                        onCheckedChange={(checked) => toggleManagerTool(tool, checked === true)}
+                      />
+                      <span>{tool}</span>
+                    </label>
+                  ))}
+                </div>
+                {form.managerTools.includes('Other') ? (
+                  <div className="mt-4">
+                    <label htmlFor="managerToolOther" className="text-sm font-medium text-[#111111]">
+                      Other tool
+                    </label>
+                    <Input
+                      id="managerToolOther"
+                      value={form.managerToolOther}
+                      onChange={updateField('managerToolOther')}
+                      placeholder="Airtable, Trello, Slack"
+                      className="mt-2 h-11 border-primary/12 bg-[#fcfbff]"
+                    />
+                  </div>
+                ) : null}
               </div>
             ) : null}
 

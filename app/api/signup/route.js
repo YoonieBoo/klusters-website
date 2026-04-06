@@ -6,6 +6,34 @@ function isValidEmail(value) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value)
 }
 
+function formatCreatorContentTypes(form) {
+  if (!Array.isArray(form.creatorContentTypes) || form.creatorContentTypes.length === 0) {
+    return 'None selected'
+  }
+
+  return form.creatorContentTypes
+    .map((type) =>
+      type === 'Other' && form.creatorContentTypeOther?.trim()
+        ? `Other (${form.creatorContentTypeOther.trim()})`
+        : type
+    )
+    .join(', ')
+}
+
+function formatManagerTools(form) {
+  if (!Array.isArray(form.managerTools) || form.managerTools.length === 0) {
+    return 'None selected'
+  }
+
+  return form.managerTools
+    .map((tool) =>
+      tool === 'Other' && form.managerToolOther?.trim()
+        ? `Other (${form.managerToolOther.trim()})`
+        : tool
+    )
+    .join(', ')
+}
+
 function buildTextBody({ roleLabel, form, questions, signupType }) {
   return [
     `Name: ${form.name}`,
@@ -14,10 +42,13 @@ function buildTextBody({ roleLabel, form, questions, signupType }) {
     `Signup Type: ${roleLabel}`,
     ...questions.map(({ label, name }) => `${label}: ${form[name] || 'Not provided'}`),
     ...(signupType === 'student-creator'
-      ? [`Interested content types: ${form.creatorContentTypes.join(', ') || 'None selected'}`]
+      ? [`Interested content types: ${formatCreatorContentTypes(form)}`]
       : []),
     ...(signupType === 'campaign-manager'
       ? [`Are you willing to: ${form.managerResponsibilities.join(', ') || 'None selected'}`]
+      : []),
+    ...(signupType === 'campaign-manager'
+      ? [`Comfortable tools: ${formatManagerTools(form)}`]
       : []),
     `Additional Notes: ${form.notes || 'None'}`,
   ].join('\n')
@@ -31,10 +62,13 @@ function buildHtmlBody({ roleLabel, form, questions, signupType }) {
     ['Signup Type', roleLabel],
     ...questions.map(({ label, name }) => [label, form[name] || 'Not provided']),
     ...(signupType === 'student-creator'
-      ? [['Interested content types', form.creatorContentTypes.join(', ') || 'None selected']]
+      ? [['Interested content types', formatCreatorContentTypes(form)]]
       : []),
     ...(signupType === 'campaign-manager'
       ? [['Are you willing to', form.managerResponsibilities.join(', ') || 'None selected']]
+      : []),
+    ...(signupType === 'campaign-manager'
+      ? [['Comfortable tools', formatManagerTools(form)]]
       : []),
     ['Additional Notes', form.notes || 'None'],
   ]
