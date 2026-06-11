@@ -231,17 +231,17 @@ export default function SignupPage() {
       if (!response.ok) {
         setStatus({
           type: 'error',
-          message: data?.error || 'Something went wrong while sending your signup. Please try again.',
+          message: data?.error || 'Something went wrong while saving your signup. Please try again.',
         })
         return
       }
 
-      setStatus({ type: 'success', message: 'Thanks. Your signup was sent successfully.' })
+      setStatus({ type: 'success', message: 'Thanks. Your signup was saved successfully.' })
       setForm(initialFields)
     } catch {
       setStatus({
         type: 'error',
-        message: 'Something went wrong while sending your signup. Please try again.',
+        message: 'Something went wrong while saving your signup. Please try again.',
       })
     } finally {
       setIsSubmitting(false)
@@ -446,7 +446,7 @@ export default function SignupPage() {
             ) : null}
 
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <p className="text-sm text-[#111111]/60">Your details will be sent directly to our team.</p>
+              <p className="text-sm text-[#111111]/60">Your details will be saved and shared with our team.</p>
               <Button type="submit" size="lg" className="sm:min-w-40" disabled={isSubmitting}>
                 {isSubmitting ? 'Sending...' : 'Sign Up'}
               </Button>

@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { getSupabaseClient, hasSupabaseConfig } from '@/lib/supabase'
 
 const RESEND_API_URL = 'https://api.resend.com/emails'
 
@@ -96,24 +97,152 @@ function buildHtmlBody({ roleLabel, form, questions, signupType }) {
   `
 }
 
-export async function POST(request) {
-  try {
-    const resendApiKey = process.env.RESEND_API_KEY
-    const fromEmail = process.env.RESEND_FROM_EMAIL
-    const toEmail = process.env.SIGNUP_TO_EMAIL
+function getSocialHandle(form) {
+  return (
+    form.instagramHandle?.trim() ||
+    form.tiktokHandle?.trim() ||
+    form.otherPlatforms?.trim() ||
+    null
+  )
+}
 
-    if (!resendApiKey || !fromEmail || !toEmail) {
+async function checkCreatorProfilesTable(supabase) {
+  return supabase.from('creator_profiles').select('*', { count: 'exact', head: true }).limit(1)
+}
+
+function buildCreatorProfileInsert({ form, roleLabel, signupType }) {
+  return {
+    name: form.name.trim(),
+    email: form.email.trim(),
+    location: form.location?.trim() || null,
+    nickname: form.nickname?.trim() || null,
+    school: form.school?.trim() || null,
+    year: form.year?.trim() || null,
+    phone_number: form.phoneNumber?.trim() || null,
+    preferred_contact: form.preferredContact?.trim() || null,
+    instagram_handle: form.instagramHandle?.trim() || null,
+    tiktok_handle: form.tiktokHandle?.trim() || null,
+    other_platforms: form.otherPlatforms?.trim() || null,
+    focus_area: form.focusArea?.trim() || null,
+    followers: form.followers?.trim() || null,
+    experience_level: form.experienceLevel?.trim() || null,
+    hours_per_week: form.hoursPerWeek?.trim() || null,
+    portfolio: form.portfolio?.trim() || null,
+    interests: form.interests?.trim() || null,
+    content_types: form.creatorContentTypes,
+    content_type_other: form.creatorContentTypeOther?.trim() || null,
+    notes: form.notes?.trim() || null,
+    signup_type: signupType,
+    role_label: roleLabel,
+  }
+}
+
+function buildMinimalCreatorProfileInsert({ form }) {
+  return {
+    name: form.name.trim(),
+    email: form.email.trim(),
+  }
+}
+
+async function insertCreatorProfile({ form, roleLabel, signupType }) {
+  if (!hasSupabaseConfig()) {
+    return {
+      data: null,
+      error: {
+        message:
+          'Supabase is not configured. Add NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY.',
+      },
+    }
+  }
+
+  const supabase = getSupabaseClient()
+  const healthCheck = await checkCreatorProfilesTable(supabase)
+
+  if (healthCheck.error) {
+    return healthCheck
+  }
+
+  const fullInsert = await supabase
+    .from('creator_profiles')
+    .insert(buildCreatorProfileInsert({ form, roleLabel, signupType }))
+    .select()
+    .single()
+
+  if (!fullInsert.error) {
+    console.log('creator_profiles insert success:', {
+      email: form.email.trim(),
+      social_handle: getSocialHandle(form),
+    })
+    return fullInsert
+  }
+
+  console.warn('creator_profiles full insert error:', {
+    email: form.email.trim(),
+    social_handle: getSocialHandle(form),
+    error: fullInsert.error.message,
+  })
+
+  const minimalInsert = await supabase
+    .from('creator_profiles')
+    .insert(buildMinimalCreatorProfileInsert({ form }))
+    .select()
+    .single()
+
+  if (minimalInsert.error) {
+    console.error('creator_profiles minimal insert error:', {
+      email: form.email.trim(),
+      social_handle: getSocialHandle(form),
+      error: minimalInsert.error.message,
+    })
+    return minimalInsert
+  }
+
+  console.log('creator_profiles insert success:', {
+    email: form.email.trim(),
+    social_handle: getSocialHandle(form),
+  })
+
+  return minimalInsert
+}
+
+export async function GET() {
+  try {
+    if (!hasSupabaseConfig()) {
       return NextResponse.json(
         {
           error:
-            'Email sending is not configured yet. Add RESEND_API_KEY, RESEND_FROM_EMAIL, and SIGNUP_TO_EMAIL on the server.',
+            'Supabase is not configured. Add NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY.',
         },
         { status: 500 }
       )
     }
 
+    const supabase = getSupabaseClient()
+    const { error } = await checkCreatorProfilesTable(supabase)
+
+    if (error) {
+      console.error('creator_profiles health check error:', { error: error.message })
+      return NextResponse.json({ ok: false, error: error.message }, { status: 502 })
+    }
+
+    return NextResponse.json({ ok: true })
+  } catch {
+    return NextResponse.json(
+      { ok: false, error: 'Unexpected server error while testing Supabase.' },
+      { status: 500 }
+    )
+  }
+}
+
+export async function POST(request) {
+  try {
     const body = await request.json()
     const { signupType, roleLabel, form, questions } = body ?? {}
+
+    console.log('POST /api/signup called:', {
+      email: form?.email?.trim() || null,
+      social_handle: form ? getSocialHandle(form) : null,
+    })
 
     if (!signupType || !roleLabel || !form || !Array.isArray(questions)) {
       return NextResponse.json({ error: 'Invalid signup payload.' }, { status: 400 })
@@ -127,34 +256,55 @@ export async function POST(request) {
       return NextResponse.json({ error: 'A valid email address is required.' }, { status: 400 })
     }
 
-    const response = await fetch(RESEND_API_URL, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${resendApiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        from: fromEmail,
-        to: [toEmail],
-        reply_to: form.email.trim(),
-        subject: roleLabel,
-        text: buildTextBody({ roleLabel, form, questions, signupType }),
-        html: buildHtmlBody({ roleLabel, form, questions, signupType }),
-      }),
-    })
+    if (signupType === 'student-creator') {
+      const { error } = await insertCreatorProfile({ form, roleLabel, signupType })
 
-    if (!response.ok) {
-      const errorText = await response.text()
-      return NextResponse.json(
-        { error: `Email provider rejected the request: ${errorText}` },
-        { status: 502 }
+      if (error) {
+        return NextResponse.json(
+          { error: `Could not save creator profile: ${error.message}` },
+          { status: 502 }
+        )
+      }
+    }
+
+    const resendApiKey = process.env.RESEND_API_KEY
+    const fromEmail = process.env.RESEND_FROM_EMAIL
+    const toEmail = process.env.SIGNUP_TO_EMAIL
+
+    if (resendApiKey && fromEmail && toEmail) {
+      const response = await fetch(RESEND_API_URL, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${resendApiKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          from: fromEmail,
+          to: [toEmail],
+          reply_to: form.email.trim(),
+          subject: roleLabel,
+          text: buildTextBody({ roleLabel, form, questions, signupType }),
+          html: buildHtmlBody({ roleLabel, form, questions, signupType }),
+        }),
+      })
+
+      if (!response.ok) {
+        const errorText = await response.text()
+        return NextResponse.json(
+          { error: `Email provider rejected the request: ${errorText}` },
+          { status: 502 }
+        )
+      }
+    } else {
+      console.warn(
+        'Signup email was skipped because RESEND_API_KEY, RESEND_FROM_EMAIL, or SIGNUP_TO_EMAIL is missing.'
       )
     }
 
     return NextResponse.json({ ok: true })
   } catch {
     return NextResponse.json(
-      { error: 'Unexpected server error while sending signup email.' },
+      { error: 'Unexpected server error while processing signup.' },
       { status: 500 }
     )
   }
