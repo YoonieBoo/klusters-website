@@ -111,50 +111,58 @@ function getSocialHandle(form) {
   )
 }
 
-async function checkCreatorProfilesTable(supabase) {
-  return supabase.from('creator_profiles').select('*', { count: 'exact', head: true }).limit(1)
+async function checkCreatorSignupsTable(supabase) {
+  return supabase.from('creator_signups').select('*', { count: 'exact', head: true }).limit(1)
 }
 
-function parseFollowerCount(value) {
+function parseInteger(value) {
   const normalized = String(value || '').replace(/,/g, '')
   const match = normalized.match(/\d+/)
   return match ? Number.parseInt(match[0], 10) : null
 }
 
-function getPrimaryPlatform(form) {
-  if (form.instagramHandle?.trim()) return 'instagram'
-  if (form.tiktokHandle?.trim()) return 'tiktok'
-  if (form.otherPlatforms?.trim()) return 'other'
-  return null
+function formatContentTypesForInsert(form) {
+  if (!Array.isArray(form.creatorContentTypes) || form.creatorContentTypes.length === 0) {
+    return null
+  }
+
+  return form.creatorContentTypes
+    .map((type) =>
+      type === 'Other' && form.creatorContentTypeOther?.trim()
+        ? `Other (${form.creatorContentTypeOther.trim()})`
+        : type
+    )
+    .join(', ')
 }
 
-function getSocialProfileUrl(form) {
-  const instagramHandle = form.instagramHandle?.trim().replace(/^@/, '')
-  const tiktokHandle = form.tiktokHandle?.trim().replace(/^@/, '')
-
-  if (instagramHandle) return `https://instagram.com/${instagramHandle}`
-  if (tiktokHandle) return `https://www.tiktok.com/@${tiktokHandle}`
-
-  return null
-}
-
-function buildCreatorProfileInsert({ form }) {
+function buildCreatorSignupInsert({ form, roleLabel, signupType }) {
   return {
-    user_id: crypto.randomUUID(),
+    signup_type: signupType,
+    role_label: roleLabel,
     display_name: (form.name || form.fullName).trim(),
     email: form.email.trim(),
-    platform: getPrimaryPlatform(form),
-    social_handle: getSocialHandle(form),
-    social_profile_url: getSocialProfileUrl(form),
-    manual_follower_count: parseFollowerCount(form.followers),
-    creator_rank: 'Bronze I',
-    verification_status: 'pending_review',
-    onboarding_completed: true,
-    created_at: new Date().toISOString(),
+    location: form.location?.trim() || null,
+    nickname: form.nickname?.trim() || null,
+    university_program: form.school?.trim() || null,
+    year: form.year?.trim() || null,
+    phone_number: form.phoneNumber?.trim() || null,
+    line_id: form.preferredContact?.trim() || null,
+    instagram_handle: form.instagramHandle?.trim() || null,
+    tiktok_handle: form.tiktokHandle?.trim() || null,
+    other_platforms: form.otherPlatforms?.trim() || null,
+    primary_creative_focus: form.focusArea?.trim() || null,
+    follower_count: parseInteger(form.followers),
+    experience_level: form.experienceLevel?.trim() || null,
+    hours_available: parseInteger(form.hoursPerWeek),
+    portfolio_links: form.portfolio?.trim() || null,
+    contribution: form.interests?.trim() || null,
+    interested_content_types: formatContentTypesForInsert(form),
+    additional_notes: form.notes?.trim() || null,
+    status: 'pending_review',
   }
 }
 
-async function insertCreatorProfile({ form }) {
+async function insertCreatorSignup({ form, roleLabel, signupType }) {
   if (!hasSupabaseServerConfig()) {
     return {
       data: null,
@@ -166,20 +174,20 @@ async function insertCreatorProfile({ form }) {
   }
 
   const supabase = getSupabaseServerClient()
-  const healthCheck = await checkCreatorProfilesTable(supabase)
+  const healthCheck = await checkCreatorSignupsTable(supabase)
 
   if (healthCheck.error) {
     return healthCheck
   }
 
   const insertResult = await supabase
-    .from('creator_profiles')
-    .insert(buildCreatorProfileInsert({ form }))
+    .from('creator_signups')
+    .insert(buildCreatorSignupInsert({ form, roleLabel, signupType }))
     .select()
     .single()
 
   if (insertResult.error) {
-    console.error('creator_profiles insert error:', {
+    console.error('creator_signups insert error:', {
       email: form.email.trim(),
       social_handle: getSocialHandle(form),
       error: insertResult.error.message,
@@ -187,7 +195,7 @@ async function insertCreatorProfile({ form }) {
     return insertResult
   }
 
-  console.log('creator_profiles insert success:', {
+  console.log('creator_signups insert success:', {
     email: form.email.trim(),
     social_handle: getSocialHandle(form),
   })
@@ -208,10 +216,10 @@ export async function GET() {
     }
 
     const supabase = getSupabaseClient()
-    const { error } = await checkCreatorProfilesTable(supabase)
+    const { error } = await checkCreatorSignupsTable(supabase)
 
     if (error) {
-      console.error('creator_profiles health check error:', { error: error.message })
+      console.error('creator_signups health check error:', { error: error.message })
       return NextResponse.json({ ok: false, error: error.message }, { status: 502 })
     }
 
@@ -247,11 +255,11 @@ export async function POST(request) {
     }
 
     if (signupType === 'student-creator') {
-      const { error } = await insertCreatorProfile({ form })
+      const { error } = await insertCreatorSignup({ form, roleLabel, signupType })
 
       if (error) {
         return NextResponse.json(
-          { error: `Could not save creator profile: ${error.message}` },
+          { error: `Could not save creator signup: ${error.message}` },
           { status: 502 }
         )
       }
