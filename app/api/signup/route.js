@@ -110,41 +110,45 @@ async function checkCreatorProfilesTable(supabase) {
   return supabase.from('creator_profiles').select('*', { count: 'exact', head: true }).limit(1)
 }
 
-function buildCreatorProfileInsert({ form, roleLabel, signupType }) {
+function parseFollowerCount(value) {
+  const normalized = String(value || '').replace(/,/g, '')
+  const match = normalized.match(/\d+/)
+  return match ? Number.parseInt(match[0], 10) : null
+}
+
+function getPrimaryPlatform(form) {
+  if (form.instagramHandle?.trim()) return 'instagram'
+  if (form.tiktokHandle?.trim()) return 'tiktok'
+  if (form.otherPlatforms?.trim()) return 'other'
+  return null
+}
+
+function getSocialProfileUrl(form) {
+  const instagramHandle = form.instagramHandle?.trim().replace(/^@/, '')
+  const tiktokHandle = form.tiktokHandle?.trim().replace(/^@/, '')
+
+  if (instagramHandle) return `https://instagram.com/${instagramHandle}`
+  if (tiktokHandle) return `https://www.tiktok.com/@${tiktokHandle}`
+
+  return null
+}
+
+function buildCreatorProfileInsert({ form }) {
   return {
-    name: form.name.trim(),
+    display_name: (form.name || form.fullName).trim(),
     email: form.email.trim(),
-    location: form.location?.trim() || null,
-    nickname: form.nickname?.trim() || null,
-    school: form.school?.trim() || null,
-    year: form.year?.trim() || null,
-    phone_number: form.phoneNumber?.trim() || null,
-    preferred_contact: form.preferredContact?.trim() || null,
-    instagram_handle: form.instagramHandle?.trim() || null,
-    tiktok_handle: form.tiktokHandle?.trim() || null,
-    other_platforms: form.otherPlatforms?.trim() || null,
-    focus_area: form.focusArea?.trim() || null,
-    followers: form.followers?.trim() || null,
-    experience_level: form.experienceLevel?.trim() || null,
-    hours_per_week: form.hoursPerWeek?.trim() || null,
-    portfolio: form.portfolio?.trim() || null,
-    interests: form.interests?.trim() || null,
-    content_types: form.creatorContentTypes,
-    content_type_other: form.creatorContentTypeOther?.trim() || null,
-    notes: form.notes?.trim() || null,
-    signup_type: signupType,
-    role_label: roleLabel,
+    platform: getPrimaryPlatform(form),
+    social_handle: getSocialHandle(form),
+    social_profile_url: getSocialProfileUrl(form),
+    manual_follower_count: parseFollowerCount(form.followers),
+    creator_rank: 'Bronze I',
+    verification_status: 'pending_review',
+    onboarding_completed: true,
+    created_at: new Date().toISOString(),
   }
 }
 
-function buildMinimalCreatorProfileInsert({ form }) {
-  return {
-    name: form.name.trim(),
-    email: form.email.trim(),
-  }
-}
-
-async function insertCreatorProfile({ form, roleLabel, signupType }) {
+async function insertCreatorProfile({ form }) {
   if (!hasSupabaseConfig()) {
     return {
       data: null,
@@ -162,39 +166,19 @@ async function insertCreatorProfile({ form, roleLabel, signupType }) {
     return healthCheck
   }
 
-  const fullInsert = await supabase
+  const insertResult = await supabase
     .from('creator_profiles')
-    .insert(buildCreatorProfileInsert({ form, roleLabel, signupType }))
+    .insert(buildCreatorProfileInsert({ form }))
     .select()
     .single()
 
-  if (!fullInsert.error) {
-    console.log('creator_profiles insert success:', {
+  if (insertResult.error) {
+    console.error('creator_profiles insert error:', {
       email: form.email.trim(),
       social_handle: getSocialHandle(form),
+      error: insertResult.error.message,
     })
-    return fullInsert
-  }
-
-  console.warn('creator_profiles full insert error:', {
-    email: form.email.trim(),
-    social_handle: getSocialHandle(form),
-    error: fullInsert.error.message,
-  })
-
-  const minimalInsert = await supabase
-    .from('creator_profiles')
-    .insert(buildMinimalCreatorProfileInsert({ form }))
-    .select()
-    .single()
-
-  if (minimalInsert.error) {
-    console.error('creator_profiles minimal insert error:', {
-      email: form.email.trim(),
-      social_handle: getSocialHandle(form),
-      error: minimalInsert.error.message,
-    })
-    return minimalInsert
+    return insertResult
   }
 
   console.log('creator_profiles insert success:', {
@@ -202,7 +186,7 @@ async function insertCreatorProfile({ form, roleLabel, signupType }) {
     social_handle: getSocialHandle(form),
   })
 
-  return minimalInsert
+  return insertResult
 }
 
 export async function GET() {
@@ -248,7 +232,7 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Invalid signup payload.' }, { status: 400 })
     }
 
-    if (!form.name?.trim()) {
+    if (!(form.name || form.fullName)?.trim()) {
       return NextResponse.json({ error: 'Name is required.' }, { status: 400 })
     }
 
@@ -257,7 +241,7 @@ export async function POST(request) {
     }
 
     if (signupType === 'student-creator') {
-      const { error } = await insertCreatorProfile({ form, roleLabel, signupType })
+      const { error } = await insertCreatorProfile({ form })
 
       if (error) {
         return NextResponse.json(
