@@ -1,5 +1,10 @@
 import { NextResponse } from 'next/server'
-import { getSupabaseClient, hasSupabaseConfig } from '@/lib/supabase'
+import {
+  getSupabaseClient,
+  getSupabaseServerClient,
+  hasSupabaseConfig,
+  hasSupabaseServerConfig,
+} from '@/lib/supabase'
 
 const RESEND_API_URL = 'https://api.resend.com/emails'
 
@@ -149,17 +154,17 @@ function buildCreatorProfileInsert({ form }) {
 }
 
 async function insertCreatorProfile({ form }) {
-  if (!hasSupabaseConfig()) {
+  if (!hasSupabaseServerConfig()) {
     return {
       data: null,
       error: {
         message:
-          'Supabase is not configured. Add NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY.',
+          'Supabase server writes are not configured. Add SUPABASE_SERVICE_ROLE_KEY on the server.',
       },
     }
   }
 
-  const supabase = getSupabaseClient()
+  const supabase = getSupabaseServerClient()
   const healthCheck = await checkCreatorProfilesTable(supabase)
 
   if (healthCheck.error) {
