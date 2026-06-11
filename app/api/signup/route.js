@@ -140,6 +140,7 @@ function getSocialProfileUrl(form) {
 
 function buildCreatorProfileInsert({ form }) {
   return {
+    user_id: crypto.randomUUID(),
     display_name: (form.name || form.fullName).trim(),
     email: form.email.trim(),
     platform: getPrimaryPlatform(form),
