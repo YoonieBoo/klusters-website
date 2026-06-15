@@ -7,6 +7,7 @@ create table if not exists public.creator_signups (
   location text,
   nickname text,
   university_program text,
+  scholarship_student boolean,
   year text,
   phone_number text,
   line_id text,
@@ -24,3 +25,6 @@ create table if not exists public.creator_signups (
   status text default 'pending_review',
   created_at timestamptz default now()
 );
+
+alter table public.creator_signups
+  add column if not exists scholarship_student boolean;

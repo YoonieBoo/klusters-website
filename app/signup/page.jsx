@@ -12,6 +12,13 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 const creatorQuestions = [
   { name: 'nickname', label: 'Nickname', placeholder: 'Ning' },
   { name: 'school', label: 'University / Faculty / Program', placeholder: 'Bangkok University / Communication Arts / Digital Marketing' },
+  {
+    name: 'scholarshipStudent',
+    label: 'Are you a scholarship student?',
+    type: 'select',
+    placeholder: 'Select an answer',
+    options: ['Yes', 'No'],
+  },
   { name: 'year', label: 'Year', type: 'select', placeholder: 'Select year', options: ['1', '2', '3', '4'] },
   { name: 'phoneNumber', label: 'Phone number', placeholder: '+66 8X-XXX-XXXX' },
   { name: 'preferredContact', label: 'LINE ID / Preferred contact', placeholder: 'lineid123 or WhatsApp' },
@@ -76,6 +83,7 @@ const initialFields = {
   location: '',
   nickname: '',
   school: '',
+  scholarshipStudent: '',
   year: '',
   phoneNumber: '',
   preferredContact: '',

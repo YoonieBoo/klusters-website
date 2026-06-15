@@ -135,6 +135,46 @@ function formatContentTypesForInsert(form) {
     .join(', ')
 }
 
+function getScholarshipStudentValue(form) {
+  if (form.scholarshipStudent === 'Yes') return true
+  if (form.scholarshipStudent === 'No') return false
+  return null
+}
+
+function getScholarshipStudentLabel(form) {
+  if (form.scholarshipStudent === 'Yes' || form.scholarshipStudent === 'No') {
+    return form.scholarshipStudent
+  }
+
+  return null
+}
+
+function isMissingScholarshipColumnError(error) {
+  return (
+    error?.code === 'PGRST204' ||
+    error?.code === '42703' ||
+    error?.message?.includes('scholarship_student')
+  )
+}
+
+function buildCreatorSignupInsertWithoutScholarshipColumn(insertPayload, form) {
+  const fallbackPayload = { ...insertPayload }
+  delete fallbackPayload.scholarship_student
+
+  const scholarshipLabel = getScholarshipStudentLabel(form)
+
+  if (scholarshipLabel) {
+    fallbackPayload.additional_notes = [
+      `Scholarship student: ${scholarshipLabel}`,
+      fallbackPayload.additional_notes,
+    ]
+      .filter(Boolean)
+      .join('\n\n')
+  }
+
+  return fallbackPayload
+}
+
 function buildCreatorSignupInsert({ form, roleLabel, signupType }) {
   return {
     signup_type: signupType,
@@ -144,6 +184,7 @@ function buildCreatorSignupInsert({ form, roleLabel, signupType }) {
     location: form.location?.trim() || null,
     nickname: form.nickname?.trim() || null,
     university_program: form.school?.trim() || null,
+    scholarship_student: getScholarshipStudentValue(form),
     year: form.year?.trim() || null,
     phone_number: form.phoneNumber?.trim() || null,
     line_id: form.preferredContact?.trim() || null,
@@ -180,11 +221,22 @@ async function insertCreatorSignup({ form, roleLabel, signupType }) {
     return healthCheck
   }
 
-  const insertResult = await supabase
+  const insertPayload = buildCreatorSignupInsert({ form, roleLabel, signupType })
+  let insertResult = await supabase
     .from('creator_signups')
-    .insert(buildCreatorSignupInsert({ form, roleLabel, signupType }))
+    .insert(insertPayload)
     .select()
     .single()
+
+  if (insertResult.error && isMissingScholarshipColumnError(insertResult.error)) {
+    console.warn('creator_signups scholarship_student column missing; saving answer in additional_notes.')
+
+    insertResult = await supabase
+      .from('creator_signups')
+      .insert(buildCreatorSignupInsertWithoutScholarshipColumn(insertPayload, form))
+      .select()
+      .single()
+  }
 
   if (insertResult.error) {
     console.error('creator_signups insert error:', {
