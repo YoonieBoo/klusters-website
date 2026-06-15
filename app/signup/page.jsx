@@ -110,6 +110,63 @@ const initialFields = {
   notes: '',
 }
 
+const signupRedirectUrl = 'https://rollerkluster-ecosystem.vercel.app/signup'
+
+function normalizeHandle(value) {
+  return value.trim().replace(/^@+/, '')
+}
+
+function getPrimarySocialProfile(form) {
+  const instagramHandle = normalizeHandle(form.instagramHandle || '')
+  const tiktokHandle = normalizeHandle(form.tiktokHandle || '')
+
+  if (instagramHandle) {
+    return {
+      platform: 'Instagram',
+      handle: instagramHandle,
+      profileUrl: `https://instagram.com/${instagramHandle}`,
+    }
+  }
+
+  if (tiktokHandle) {
+    return {
+      platform: 'TikTok',
+      handle: tiktokHandle,
+      profileUrl: `https://tiktok.com/@${tiktokHandle}`,
+    }
+  }
+
+  return {
+    platform: '',
+    handle: '',
+    profileUrl: '',
+  }
+}
+
+function buildSignupRedirectUrl(form) {
+  const redirectUrl = new URL(signupRedirectUrl)
+  const socialProfile = getPrimarySocialProfile(form)
+  const followers = form.followers.trim().replace(/,/g, '')
+
+  if (socialProfile.platform) {
+    redirectUrl.searchParams.set('platform', socialProfile.platform)
+  }
+
+  if (followers) {
+    redirectUrl.searchParams.set('followers', followers)
+  }
+
+  if (socialProfile.handle) {
+    redirectUrl.searchParams.set('handle', socialProfile.handle)
+  }
+
+  if (socialProfile.profileUrl) {
+    redirectUrl.searchParams.set('profileUrl', socialProfile.profileUrl)
+  }
+
+  return redirectUrl.toString()
+}
+
 export default function SignupPage() {
   const [signupType, setSignupType] = useState('student-creator')
   const [form, setForm] = useState(initialFields)
@@ -244,8 +301,7 @@ export default function SignupPage() {
         return
       }
 
-      setStatus({ type: 'success', message: 'Thanks. Your signup was saved successfully.' })
-      setForm(initialFields)
+      window.location.assign(buildSignupRedirectUrl(form))
     } catch {
       setStatus({
         type: 'error',
