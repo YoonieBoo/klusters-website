@@ -361,11 +361,6 @@ export default function SignupPage() {
               </div>
             </div>
 
-            <div>
-              <label htmlFor="location" className="text-sm font-medium text-[#111111]">Location</label>
-              <Input id="location" value={form.location} onChange={updateField('location')} placeholder="City, country" className="mt-2 h-11 border-primary/12 bg-[#fcfbff]" />
-            </div>
-
             <div className="grid gap-4 sm:grid-cols-2">
               {questions.map((question) => (
                 <div key={question.name} className={question.name === 'interests' || question.name === 'organizationExperience' ? 'sm:col-span-2' : ''}>
