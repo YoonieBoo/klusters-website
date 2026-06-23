@@ -301,7 +301,15 @@ export default function SignupPage() {
         return
       }
 
-      window.location.assign(buildSignupRedirectUrl(form))
+      if (signupType === 'student-creator') {
+        window.location.assign(buildSignupRedirectUrl(form))
+        return
+      }
+
+      setStatus({
+        type: 'success',
+        message: 'Your campaign manager signup has been received.',
+      })
     } catch {
       setStatus({
         type: 'error',

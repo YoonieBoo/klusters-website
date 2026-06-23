@@ -135,6 +135,23 @@ function formatContentTypesForInsert(form) {
     .join(', ')
 }
 
+function formatListForInsert(values, fallback = null) {
+  return Array.isArray(values) && values.length > 0 ? values.join(', ') : fallback
+}
+
+function buildAdditionalNotes({ form, signupType }) {
+  if (signupType !== 'campaign-manager') {
+    return form.notes?.trim() || null
+  }
+
+  return [
+    form.managedBefore?.trim() ? `Managed before: ${form.managedBefore.trim()}` : null,
+    form.notes?.trim() ? `Notes: ${form.notes.trim()}` : null,
+  ]
+    .filter(Boolean)
+    .join('\n') || null
+}
+
 function getScholarshipStudentValue(form) {
   if (form.scholarshipStudent === 'Yes') return true
   if (form.scholarshipStudent === 'No') return false
@@ -176,6 +193,34 @@ function buildCreatorSignupInsertWithoutScholarshipColumn(insertPayload, form) {
 }
 
 function buildCreatorSignupInsert({ form, roleLabel, signupType }) {
+  if (signupType === 'campaign-manager') {
+    return {
+      signup_type: signupType,
+      role_label: roleLabel,
+      display_name: (form.name || form.fullName).trim(),
+      email: form.email.trim(),
+      location: form.location?.trim() || null,
+      nickname: null,
+      university_program: form.managerProgram?.trim() || null,
+      scholarship_student: null,
+      year: form.managerYear?.trim() || null,
+      phone_number: form.managerPhone?.trim() || null,
+      line_id: form.managerLineId?.trim() || null,
+      instagram_handle: null,
+      tiktok_handle: null,
+      other_platforms: null,
+      primary_creative_focus: 'Campaign manager',
+      follower_count: null,
+      experience_level: form.organizationExperience?.trim() || null,
+      hours_available: null,
+      portfolio_links: null,
+      contribution: formatListForInsert(form.managerResponsibilities),
+      interested_content_types: formatManagerTools(form),
+      additional_notes: buildAdditionalNotes({ form, signupType }),
+      status: 'pending_review',
+    }
+  }
+
   return {
     signup_type: signupType,
     role_label: roleLabel,
@@ -198,7 +243,7 @@ function buildCreatorSignupInsert({ form, roleLabel, signupType }) {
     portfolio_links: form.portfolio?.trim() || null,
     contribution: form.interests?.trim() || null,
     interested_content_types: formatContentTypesForInsert(form),
-    additional_notes: form.notes?.trim() || null,
+    additional_notes: buildAdditionalNotes({ form, signupType }),
     status: 'pending_review',
   }
 }
@@ -290,6 +335,7 @@ export async function POST(request) {
     const { signupType, roleLabel, form, questions } = body ?? {}
 
     console.log('POST /api/signup called:', {
+      signup_type: signupType || null,
       email: form?.email?.trim() || null,
       social_handle: form ? getSocialHandle(form) : null,
     })
@@ -306,48 +352,50 @@ export async function POST(request) {
       return NextResponse.json({ error: 'A valid email address is required.' }, { status: 400 })
     }
 
-    if (signupType === 'student-creator') {
-      const { error } = await insertCreatorSignup({ form, roleLabel, signupType })
+    const { error } = await insertCreatorSignup({ form, roleLabel, signupType })
 
-      if (error) {
-        return NextResponse.json(
-          { error: `Could not save creator signup: ${error.message}` },
-          { status: 502 }
-        )
-      }
+    if (error) {
+      return NextResponse.json(
+        { error: `Could not save signup: ${error.message}` },
+        { status: 502 }
+      )
     }
 
     const resendApiKey = process.env.RESEND_API_KEY
     const fromEmail = process.env.RESEND_FROM_EMAIL
     const toEmail = process.env.SIGNUP_TO_EMAIL
 
-    if (resendApiKey && fromEmail && toEmail) {
-      const response = await fetch(RESEND_API_URL, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${resendApiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          from: fromEmail,
-          to: [toEmail],
-          reply_to: form.email.trim(),
-          subject: roleLabel,
-          text: buildTextBody({ roleLabel, form, questions, signupType }),
-          html: buildHtmlBody({ roleLabel, form, questions, signupType }),
-        }),
-      })
-
-      if (!response.ok) {
-        const errorText = await response.text()
-        return NextResponse.json(
-          { error: `Email provider rejected the request: ${errorText}` },
-          { status: 502 }
-        )
-      }
-    } else {
+    if (!resendApiKey || !fromEmail || !toEmail) {
       console.warn(
         'Signup email was skipped because RESEND_API_KEY, RESEND_FROM_EMAIL, or SIGNUP_TO_EMAIL is missing.'
+      )
+      return NextResponse.json(
+        { error: 'Signup was saved, but email delivery is not configured.' },
+        { status: 502 }
+      )
+    }
+
+    const response = await fetch(RESEND_API_URL, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${resendApiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: fromEmail,
+        to: [toEmail],
+        reply_to: form.email.trim(),
+        subject: roleLabel,
+        text: buildTextBody({ roleLabel, form, questions, signupType }),
+        html: buildHtmlBody({ roleLabel, form, questions, signupType }),
+      }),
+    })
+
+    if (!response.ok) {
+      const errorText = await response.text()
+      return NextResponse.json(
+        { error: `Email provider rejected the request: ${errorText}` },
+        { status: 502 }
       )
     }
 
